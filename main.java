@@ -10,11 +10,12 @@ public class main{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 		
-		SpaceShip s = new SpaceShip(180 , 550 , 50 , 50);
+		SpaceShip s = new SpaceShip(180 , 550 , 20 , 20);
 		GamePanel gp = new GamePanel();
 		GameEngine ge = new GameEngine(gp , s);
-	
 		frame.getContentPane().add(gp, BorderLayout.CENTER);
+		frame.addKeyListener(ge);
+
 		ge.start();
 		frame.setVisible(true);
 	}
