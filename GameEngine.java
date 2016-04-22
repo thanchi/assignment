@@ -11,6 +11,7 @@ public class GameEngine implements KeyListener , GameReporter{
 	private SpaceShip s;
 	private Timer timer;
 	private long score = 0;
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	public GameEngine(GamePanel gp , SpaceShip s){
 		this.gp = gp;
@@ -24,9 +25,15 @@ public class GameEngine implements KeyListener , GameReporter{
 		});
 		timer.setRepeats(true);
 	}
-		
+	
 	public void start(){
 		timer.start();
+	}
+	
+	public void generateEnemy(){
+		Enemy e = new Enemy((int)(Math.random() * 390), 30);
+		gp.sprites.add(e);
+		enemies.add(e);
 	}
 		
 	public long getScore(){
@@ -34,9 +41,18 @@ public class GameEngine implements KeyListener , GameReporter{
 	}
 		
 	public void process(){
+		generateEnemy();
+		Iterator<Enemy> e_iter = enemies.iterator();
+		while(e_iter.hasNext()){
+			Enemy e = e_iter.next();
+			e.proceed();
+		} 
 		gp.updateGameUI(this);
 		Rectangle2D.Double sr = s.getRectangle();
 		Rectangle2D.Double er;
+		for(Enemy e : enemies){
+			er = e.getRectangle();
+		}
 	}
 	
 	void controlVehicle(KeyEvent e){
