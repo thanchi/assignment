@@ -46,6 +46,7 @@ public class GameEngine implements KeyListener , GameReporter{
 		while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
 			e.proceed();
+			score += 100;
 		} 
 		gp.updateGameUI(this);
 		Rectangle2D.Double sr = s.getRectangle();
