@@ -11,6 +11,8 @@ public class GameEngine implements KeyListener , GameReporter{
 	private SpaceShip s;
 	private Timer timer;
 	private long score = 0;
+	private double difficulty = 0.01;
+	private double hFactor = 100000;
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	public GameEngine(GamePanel gp , SpaceShip s){
@@ -41,12 +43,22 @@ public class GameEngine implements KeyListener , GameReporter{
 	}
 		
 	public void process(){
-		generateEnemy();
+		 if(Math.random()/10 < difficulty){
+            generateEnemy();
+        }
 		Iterator<Enemy> e_iter = enemies.iterator();
 		while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
 			e.proceed();
-			score += 100;
+			if(!e.isAlive()){
+                e_iter.remove();
+                gp.sprites.remove(e);
+                score += 100;
+                if(((double)score/hFactor) >= difficulty){
+                    difficulty+=0.005;
+                    System.out.println("Harder!!!(Diff is" + difficulty + ")" );
+        }
+            }
 		} 
 		gp.updateGameUI(this);
 		Rectangle2D.Double sr = s.getRectangle();
@@ -69,6 +81,18 @@ public class GameEngine implements KeyListener , GameReporter{
 				break;
 			case KeyEvent.VK_DOWN:
 				s.move(0 , 1);
+				break;
+			case KeyEvent.VK_H:
+				if(difficulty <= 0.1 ){
+					difficulty += 0.01;
+					System.out.println("Difficulty : " + difficulty);
+				}
+				break;
+			case KeyEvent.VK_L:
+				if(difficulty >= 0.02 ){
+					difficulty -= 0.01;
+					System.out.println("Difficulty : " + difficulty);
+				}
 				break;
 		}
 	}
