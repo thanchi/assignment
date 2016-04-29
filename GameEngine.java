@@ -72,6 +72,8 @@ public class GameEngine implements KeyListener , GameReporter{
 	}
 	public void die(){
 		timer.stop();
+		System.out.println("Game Over!!!!");
+		System.out.println("Total score : " + score);
 	}
 	
 	void controlVehicle(KeyEvent e){
