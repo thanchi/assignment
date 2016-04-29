@@ -56,8 +56,7 @@ public class GameEngine implements KeyListener , GameReporter{
                 score += 100;
                 if(((double)score/hFactor) >= difficulty){
                     difficulty+=0.005;
-                    System.out.println("Harder!!!(Diff is" + difficulty + ")" );
-        }
+				}
             }
 		} 
 		gp.updateGameUI(this);
@@ -65,7 +64,14 @@ public class GameEngine implements KeyListener , GameReporter{
 		Rectangle2D.Double er;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
+			if(er.intersects(sr)){
+				die();
+				return;
+			}
 		}
+	}
+	public void die(){
+		timer.stop();
 	}
 	
 	void controlVehicle(KeyEvent e){
